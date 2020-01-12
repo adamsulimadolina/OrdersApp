@@ -32,11 +32,13 @@ class Meals extends Component {
         });
     }
 
-    onMealAdd = async (mealData) => {
+    onMealAdd = (mealData) => {
         let elem = {
-            mealName: mealData.name,
-            number: mealData.number,
-            shop: mealData.shop
+            name: mealData.name,
+            id: mealData.id,
+            ingredients: mealData.ingredients,
+            image: mealData.image,
+            price: mealData.price
         }
         let tmp_prod = this.state.meals;
         tmp_prod.push(elem)

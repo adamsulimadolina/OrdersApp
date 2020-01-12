@@ -57,18 +57,23 @@ class ProductsList extends Component {
                             if (id !== this.state.prodIdToEdit)
                                 return (
                                     <div key={id} className="container" >
-                                        <li className="list-group-item active list-group-item-action" onClick={this.editProduct.bind(this, id)}>
-                                            {product.productName}
-                                            <span className="badge badge-primary badge-pill">DELETE</span>
-                                        </li>
-                                        <li className="list-group-item" onClick={this.editProduct.bind(this, id)}>
-                                            {product.number}
-                                        </li>
-                                        <li className="list-group-item" onClick={this.editProduct.bind(this, id)}>
-                                            {product.shop}
-                                        </li>
-                                        <br></br>
+                                        <div key={id} className="container" >
+                                            <li className="list-group-item active list-group-item-action">
+                                                {product.productName}
+                                                <span className="badge">DELETE</span>
+                                            </li>
+                                            <li className="list-group-item">
+                                                {product.number}
+                                            </li>
+                                            <li className="list-group-item">
+                                                {product.shop}
+                                            </li>
 
+                                            
+
+                                        </div>
+                                        <button className="badge" type="button" onClick={this.editProduct.bind(this, id)}>EDIT</button>
+                                        <br></br>
                                     </div>
 
                                 )

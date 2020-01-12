@@ -51,15 +51,19 @@ class MealsList extends Component {
                         if (id !== this.state.prodIdToEdit)
                             return (
                                 <div key={id} className="container" >
+                                    <li className="list-group-item" onClick={this.editMeal.bind(this, id)}>
+                                        <img alt="" src={meal.image} />
+                                    </li>
                                     <li className="list-group-item active list-group-item-action" onClick={this.editmeal.bind(this, id)}>
-                                        {meal.mealName}
+                                        {meal.name}
                                     </li>
                                     <li className="list-group-item" onClick={this.editMeal.bind(this, id)}>
-                                        {meal.number}
+                                        {meal.ingredients}
                                     </li>
                                     <li className="list-group-item" onClick={this.editMeal.bind(this, id)}>
-                                        {meal.shop}
+                                        {meal.price}
                                     </li>
+                                    <button type="button" onClick={this.editMeal.bind(this, id)}>EDIT</button>
                                     <br></br>
                                 </div>
 

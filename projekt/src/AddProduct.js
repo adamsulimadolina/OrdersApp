@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-import ButtonAdd from './ButtonAdd';
 
 class AddProduct extends Component {
     constructor(props) {
