@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import ProductsList from './ProductsList';
 import AddProduct from './AddProduct';
-import Context from './Context';
+
 import axios from 'axios';
 
 

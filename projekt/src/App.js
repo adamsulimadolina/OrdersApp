@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import AddProduct from './AddProduct';
 import Meals from './Meals';
 import Nav from './Nav';
-import Context from './Context';
+import OrderConfirm from './OrderConfirm';
+
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
           <Switch>
             <Route path="/meals" component={Meals} />
             <Route path="/products" component={Products} />
-            <Route path="/addproduct" component={AddProduct} />
+            <Route path="/finishorder" component={OrderConfirm} />
           </Switch>
         </div>
       </Router>
