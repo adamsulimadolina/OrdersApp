@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StickyContainer, Sticky } from 'react-sticky';
 import './App.css';
 import Order from './Order';
 import OrderConfirm from './OrderConfirm'
@@ -74,20 +75,26 @@ class MealsList extends Component {
                                                     <div className="mh-25">
                                                         <div className="card mh-25">
                                                             <h5 className="card-header text-white bg-dark">{meal.name}</h5>
-                                                            <div className="row no-gutters align-items-center">
-                                                                <img className="col-md-4 align-items-center border-right" alt="" src={meal.image} />
+                                                            <div className="row no-gutters">
+                                                                <img className="col-md-4 align-items-center" alt="" src={meal.image} />
 
                                                                 <div className="col-md-8">
-                                                                    <div className="card-body align-items-center">
-                                                                        <h6>Składniki:</h6>
-                                                                        {meal.ingredients.map((ing, id) => <div key={id} className="h-50">{ing},</div>)}
+                                                                <h6 className="d-block text-white bg-secondary text-white m-0 padding p-2">Składniki:</h6>
+
+                                                                    <div className="d-flex card-body align-items-center p-0">                                                                        
+                                                                        {meal.ingredients.map((ing, id) => <div key={id} className="flex-fill border border-dark p-2 ">{ing}</div>)}
                                                                     </div>
-                                                                    <div className="card-footer">
-                                                                        <h6>Cena: {meal.price} PLN</h6>
+                                                                    <div className="align-items-end">
+
+                                                                    <div className="card-footer margin ">
+                                                                        <h6 className="">Cena: {meal.price} PLN</h6>
                                                                     </div>
-                                                                    <button type="button" onClick={this.editMeal.bind(this, id)}>EDIT</button>
-                                                                    <button type="button" onClick={this.addToOrder.bind(this, id)}>ADD TO ORDER</button>
-                                                                    <br></br>
+                                                                    
+                                                                    <div className="d-flex padding p-2">
+                                                                        <button type="button" className="btn btn-dark mx-auto" onClick={this.editMeal.bind(this, id)}>EDIT</button>
+                                                                        <button type="button" className="btn btn-dark mx-auto" onClick={this.addToOrder.bind(this, id)}>ADD TO ORDER</button>
+                                                                    </div>
+                                                                    </div>
                                                                 </div>
 
                                                             </div>

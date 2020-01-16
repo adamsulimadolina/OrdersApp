@@ -1,4 +1,5 @@
 import React from 'react';
+import Sticky from 'react-sticky-el';
 import {Link} from 'react-router-dom';
 const Order = (props) => {
 
@@ -36,30 +37,51 @@ const Order = (props) => {
         total_price += arr[i].counter * arr[i].meal.price;
     }
 
+
     if (arr.length > 0) {
         return (
-            <div className="border">
-                ZAMÓWIENIE
-            <ul>
-                    {arr.map((meal, id) => {
-                        return <li key={id}>{meal.counter}x {meal.meal.name} {meal.meal.price * meal.counter}</li>
-                    })}
-                </ul>
-                <p>TOTAL: {total_price}</p>
-                <Link to={{
-                    pathname:'/finishorder',
-                    test:arr
-                }}>
-                <button>FINISH</button>
-                </Link>
+            <Sticky>
+                <div className="border position-relative">
+                    <div className="card-header">
+                        <h3>ZAMÓWIENIE</h3>
+                    </div>
+                <ul>
+                        {arr.map((meal, id) => {
+                            return <li className="p-1"key={id}>{meal.counter}x {meal.meal.name} {meal.meal.price * meal.counter} -</li>
+                        })}
+                    </ul>
+                    <div className="p-1">
+                        <hr></hr>
+                        TOTAL: {total_price}
+                    </div>
+                    <div className="p-2">
+                        <Link to={{
+                            pathname:'/finishorder',
+                            test:arr
+                        }}>
+                            <button className="btn btn-secondary p-1">FINISH</button>
+                        </Link>
+                    </div>
+                    
             </div>
+            </Sticky>
+            
         )
     }
+    
     return (
-        <div className="border">
-            ZAMÓWIENIE
-            <p>TOTAL: {total_price}</p>
+        <Sticky>
+            <div className="border">
+            <div className="card-header">
+                <h3>ZAMÓWIENIE</h3>
+            </div>
+            <div className="p-1">
+                <hr></hr>
+                TOTAL: {total_price}
+            </div>
         </div>
+        </Sticky>
+        
     )
 }
 
