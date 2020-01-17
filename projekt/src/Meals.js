@@ -12,16 +12,32 @@ class Meals extends Component {
         super(props);
         this.state = {
             meals: [],
-            selectedMeal: null
+            selectedMeal: null,
+            order_meals: []
         };
     }
 
+    componentWillMount() {
+        console.log(this.props.history.location.order)
+        if(this.props.history.location.order !== undefined) {
+            //console.log("p")
+            this.setState({
+                order_meals: this.props.history.location.order
+            })
+            //console.log(this.state)
+        } else {
+            //console.log("x")
+            this.setState({
+                order_meals: []
+            })
+        }
+    }
     componentDidMount() {
+        
         this.setState({
             loaded: false
         });
         axios("http://localhost:8080/meals").then(res => {
-            console.log(res.data);
             this.setState({ loaded: true, meals: res.data });
         }).catch(error => console.error('Error', error));
     }
@@ -76,7 +92,7 @@ class Meals extends Component {
 
             <div>
                 <MealsList selectedMeal={this.onMealSelected}
-                    updateMeal={this.onMealUpdate} meals={this.state.meals} />
+                    updateMeal={this.onMealUpdate} meals={this.state.meals} order={this.state.order_meals}/>
                 <button className="btn btn-dark" onClick={this.handleClick.bind(this)}>ADD</button>
                 {this.renderAdd()}
             </div>

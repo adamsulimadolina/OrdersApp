@@ -26,7 +26,7 @@ let products = [{
 let meals = [{
         name: "Pizza",
         price: 22,
-        ingredients: ["jabłko", "banan", "pizza"],
+        ingredients: ["jabłko", "banan", "pizza","jabłko", "banan", "pizza", "XD", "XD"],
         image: "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F6352796.jpg"
 
     },

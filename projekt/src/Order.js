@@ -11,7 +11,6 @@ const Order = (props) => {
         let tmp = [];
         for (let p = 0; p < arr.length; p++) {
             tmp.push(arr[p].meal)
-            console.log("1")
         }
 
         if (!tmp.includes(props.meals[i])) {
@@ -23,10 +22,7 @@ const Order = (props) => {
         } else {
 
             for (let k = 0; k < arr.length; k++) {
-                console.log(arr[k].meal)
-                console.log(props.meals[i])
                 if (arr[k].meal === props.meals[i]) {
-                    console.log("xD")
                     arr[k].counter += 1;
                 }
             }
@@ -57,7 +53,8 @@ const Order = (props) => {
                     <div className="p-2">
                         <Link to={{
                             pathname:'/finishorder',
-                            test:arr
+                            test:arr,
+                            f: props.backf
                         }}>
                             <button className="btn btn-secondary p-1">FINISH</button>
                         </Link>
