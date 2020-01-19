@@ -194,7 +194,7 @@ render() {
                                                             <h6 className="d-block text-white bg-secondary text-white m-0 padding p-2">Składniki:</h6>
 
                                                             <div className="d-flex flex-wrap card-body align-items-center p-0">
-                                                                {meal.ingredients.map((ing, id) => <div key={id} className="flex-fill w-25 border border-dark p-2 ">{ing}</div>)}
+                                                                {meal.ingredients.map((ing, id) => <div key={id} className="flex-fill w-25 border border-dark p-2">{ing}</div>)}
                                                             </div>
                                                             <div className="align-items-end">
 
