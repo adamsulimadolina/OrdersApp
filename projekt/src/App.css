@@ -20,3 +20,10 @@
 .App-link {
   color: #09d3ac;
 }
+
+.sticky-content 
+{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 75px;
+}

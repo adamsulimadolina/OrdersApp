@@ -102,15 +102,35 @@ app.put('/products', (req, res) => {
     if (!present) res.sendStatus(304);
 });
 
+app.get('/meals', function(req, res) {
+    res.send(meals);
+});
+
+app.put('/meals', (req, res) => {
+    const meal = req.body;
+    let present = false;
+    meals.map((el, index, tab) => {
+        if (el.name === meal.name) {
+
+            tab[index].name = meal.name;
+            tab[index].price = meal.price;
+            tab[index].ingredients = meal.ingredients;
+            tab[index].image = meal.image;
+            res.send(tab[index]);
+            present = true;
+
+        }
+    });
+    if (!present) res.sendStatus(304);
+});
+
 
 
 app.delete('/', (req, res) => {
     return res.send('Received a DELETE HTTP method');
 });
 
-app.get('/meals', function(req, res) {
-    res.send(meals);
-});
+
 
 app.listen(8080, () =>
     console.log('Example app listening on port 8080!'),

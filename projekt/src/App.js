@@ -2,7 +2,6 @@ import React from 'react';
 import Products from './Products';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import AddProduct from './AddProduct';
 import Meals from './Meals';
 import Nav from './Nav';
 import OrderConfirm from './OrderConfirm';
@@ -11,7 +10,7 @@ import OrderConfirm from './OrderConfirm';
 
 function App() {
   return (
-
+    
       <Router>
         <div className="App">
           <Nav />
@@ -20,8 +19,10 @@ function App() {
             <Route path="/products" component={Products} />
             <Route path="/finishorder" component={OrderConfirm} />
           </Switch>
-        </div>
+          </div>
+          
       </Router>
+    
   );
 }
 
