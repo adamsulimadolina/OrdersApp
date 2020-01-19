@@ -32,6 +32,8 @@ const Order = (props) => {
         total_price += arr[i].counter * arr[i].meal.price;
     }
 
+    total_price = total_price.toFixed(2);
+
 
     if (arr.length > 0) {
         return (
@@ -43,7 +45,7 @@ const Order = (props) => {
                 <ul>
                     {arr.map((meal, id) => {
                         return <li className="p-1" key={id}>
-                                {meal.counter}x {meal.meal.name} {meal.meal.price * meal.counter} -
+                                {meal.counter}x {meal.meal.name} {(meal.meal.price * meal.counter).toFixed(2)} -
                                 <button type="button" className="close" aria-label="Close" onClick={props.delete.bind(this, props.meals, arr[id])}>
                                     <span aria-hidden="true">-</span>
                                 </button>
