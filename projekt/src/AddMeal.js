@@ -31,8 +31,15 @@ class AddMeal extends Component {
     }
     finish(e) {
         e.preventDefault();
-        if (this.state.name === "") {
-            alert("Please insert correct value");
+        console.log(this.state)
+        if (this.state.name === null) {
+            alert("Please insert correct name.");
+        } else if (this.state.price === null){
+            alert("Please insert correct price.");
+        } else if (this.state.ingredients.length === 0) {
+            alert("Please insert correct ingredients (ingredient1,ingredient2,...).");
+        } else if (this.state.image === null) {
+            alert("Please insert correct image address.");
         } else {
             this.props.func(this.state);
         }
@@ -45,8 +52,7 @@ class AddMeal extends Component {
         return (
                 <div className="form-group row align-items-center">
                     <div className="col-xs-7">
-                        <form onSubmit={this.finish.bind(this)}>
-
+                        <form>
                             <div className="form-group mb-2 w-100">
                                 <StringField label="Name: " defaultValue={this.state.name} className={"form-control"} placeholder={"Name..."} onChange={this.changeVal.bind(this, 1)} />
                             </div>
@@ -59,10 +65,9 @@ class AddMeal extends Component {
                             <div className="form-group mb-2 w-100">
                                 <StringField label="Image...: " defaultValue={this.state.image} className={"form-control"} placeholder={"Image link..."} onChange={this.changeVal.bind(this, 4)} />
                             </div>
-                            <button type="submit" className="btn btn-secondary p-1">SUBMIT ORDER</button>
+                            <button type="button" className="btn btn-secondary p-1" onClick={this.finish.bind(this)}>ADD MEAL</button>
 
                         </form>
-                        <button className="btn btn-dark" type="button" onClick={(e) => this.finishEdit(e)}>Add</button>
                     </div>
                 </div>
         );
