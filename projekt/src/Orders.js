@@ -1,5 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import axios from 'axios'
+import Carousel from 'react-bootstrap/Carousel'
+
 
 class Orders extends Component {
     constructor() {
@@ -11,33 +13,41 @@ class Orders extends Component {
     }
 
     componentDidMount() {
-        
+
         this.setState({
             loaded: false
         });
         axios("http://localhost:8080/orders").then(res => {
-            this.setState({ loaded: true, orders: res.data});
+            this.setState({ loaded: true, orders: res.data });
         }).catch(error => console.error('Error', error));
 
-        
+
 
     }
 
     render() {
-            console.log(this.state.orders)
-            if (this.state.orders.length > 0) {
-                
-                return (
-                    <ul className="list-group">
-                    {this.state.orders.map((obj, idx) => 
-                        <h5 key={idx}> {obj.name} </h5>
-                    )
-                    }
-                    </ul>
-                )
-            }
-            return (<div></div>)
-        
+        console.log(this.state.orders)
+        if (this.state.orders.length > 0) {
+
+            return (
+                <div className="container mt-5">
+                    <div className="row col-md-12 m-4">
+
+                        {this.state.orders.map((obj, idx) => {
+                            return (<div className="col-md-6 mt-4">
+                                <div className="card w-100 col-md m-10" key={idx}> {obj.name}<br></br>
+                                {obj.surname} <br></br>
+                                 {obj.street} </div>
+                            </div>)
+                        })
+                        }
+
+                    </div>
+                </div>
+            )
+        }
+        return (<div></div>)
+
     }
 }
 

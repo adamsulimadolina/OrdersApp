@@ -12,7 +12,7 @@ class Nav extends React.Component {
                     <img className="App-logo" alt="logo" src={logo}></img>
                     
                         <div className="nav-item "><a className="text-white mx-3" href="/meals">Meals</a></div>
-                        <div className="nav-item "><a className="text-white mx-3" href="/products">Product</a></div>
+                        <div className="nav-item "><a className="text-white mx-3" href="/orders">Orders</a></div>
                    
                 </nav>
         )
