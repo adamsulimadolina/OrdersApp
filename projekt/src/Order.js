@@ -49,13 +49,14 @@ const Order = (props) => {
                 </div>
                 <ul className="zamLi">
                     {arr.map((meal, id) => {
+
                         return <HeadShake><li className="p-1" key={id}>
 
                                 {meal.counter}x {meal.meal.name} {(meal.meal.price * meal.counter).toFixed(2)} 
-                                <button type="button" className="close mx-2" aria-label="Close" onClick={props.delete.bind(this, props.meals, arr[id])}>
+                                <button type="button" className="close mx-2 " aria-label="Close" onClick={props.delete.bind(this, props.meals, arr[id])}>
                                     <span aria-hidden="true">-</span>
                                 </button>
-                                <button type="button" className="close mx-2" aria-label="Close" onClick={props.add.bind(this, props.meals, arr[id])}>
+                                <button type="button" className="close mx-2 " aria-label="Close" onClick={props.add.bind(this, props.meals, arr[id])}>
                                     <span aria-hidden="true">+</span>
                                 </button>
                             </li></HeadShake>

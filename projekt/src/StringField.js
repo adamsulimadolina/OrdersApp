@@ -5,7 +5,6 @@ function StringField({ label, ...inputProps }) {
 
     return (
         <div className="string-field field">
-            
             <StringInput {...inputProps} />
         </div>
     )

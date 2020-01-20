@@ -3,10 +3,12 @@ import StringField from './StringField'
 import NumberField from './NumberField';
 import Zoom from 'react-reveal/Zoom';
 
+
 class AddMeal extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: null,
             name: null,
             price: null,
             ingredients: [],
@@ -32,8 +34,16 @@ class AddMeal extends Component {
     }
     finish(e) {
         e.preventDefault();
-        if (this.state.name === "") {
-            alert("Please insert correct value");
+        console.log(this.state)
+        if (this.state.name === null) {
+            alert("Please insert correct name.");
+        } else if (this.state.price === null){
+            alert("Please insert correct price.");
+        } else if (this.state.ingredients.length === 0) {
+            alert("Please insert correct ingredients (ingredient1,ingredient2,...).");
+        } else if (this.state.image === null) {
+            alert("Please insert correct image address.");
+
         } else {
             this.props.func(this.state);
         }

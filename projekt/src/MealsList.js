@@ -8,6 +8,7 @@ import Fade from 'react-reveal/Fade';
 import Zoom from 'react-reveal/Zoom';
 
 
+
 class MealsList extends Component {
     constructor(props) {
         super(props);
@@ -107,16 +108,15 @@ r
         let newVal = e.target.value;
         let field = key;
         let pr = Object.assign({}, this.state.editedMeal);
-        if (field === 0) pr.name = newVal;
-        else if (field === 1) pr.price = newVal;
-        else if (field === 2) {
+        if (field === 1) pr.name = newVal;
+        else if (field === 2) pr.price = newVal;
+        else if (field === 3) {
             pr.ingredients = newVal.split(',')
         }
-        else pr.image = newVal;
+        else if(field === 4) pr.image = newVal;
         this.setState({
             editedMeal: pr
         });
-        console.log(this.state.editedMeal);
     }
 
     goBack = (data) => {
@@ -193,6 +193,7 @@ render() {
                         
                     <hr></hr>
 
+
                 </div>
                 <div className="container ">
                     
@@ -213,7 +214,7 @@ render() {
                                             <div key={id} className="container mw-50">
                                                 <div className="col-sm ">
                                                     <Fade right>
-                                                    <div className="card transparentContainer">
+                                                    <div className="card border-0 transparentContainer">
                                                         <h5 className="card-header text-white bg-dark">{meal.name}</h5>
                                                         <div className="row no-gutters">
                                                             <div className="col-md align-items-center">
@@ -242,7 +243,6 @@ render() {
                                                                 </div>
 
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                     </Fade>
@@ -252,11 +252,12 @@ render() {
 
                                         )
                                     else return (
-                                        <Zoom><li key={id} className="editItem list-group-item ">
+                                        <Zoom key={id}><li key={id} className="editItem list-group-item ">
                                             <form>
                                                 <div className="container card transparentContainer w-75 p-2">
                                                     {Object.values(meal).map((field, fieldKey) => {
-                                                        return <div><input className="list-group-item list-group-item-action transparentContainer mx-auto mb-1 mt-1" key={field} defaultValue={field} onChange={this.changeVal.bind(this, fieldKey)} /></div>
+                                                        if(fieldKey === 0) { return }
+                                                        return <div key={fieldKey}><input className="list-group-item list-group-item-action transparentContainer mx-auto mb-1 mt-1"  defaultValue={field} onChange={this.changeVal.bind(this, fieldKey)} /></div>
                                                     }, this)}
                                                     <button className="btn btn-dark mt-1" onClick={this.finishEdit.bind(this)} type="button">Update</button>
                                                 </div>
@@ -272,6 +273,7 @@ render() {
 
                         
                     </div>
+
                     
                 </div>
             </div>
