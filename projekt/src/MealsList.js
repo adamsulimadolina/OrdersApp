@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SortButton from './SortButton';
 import './MealsList.css';
 import Fade from 'react-reveal/Fade';
+import Zoom from 'react-reveal/Zoom';
+
 
 class MealsList extends Component {
     constructor(props) {
@@ -19,8 +21,13 @@ class MealsList extends Component {
         }
     }
 
-    componentDidMount() {
-        if (this.props.order !== null) {
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        this.setState({
+            meals_display: nextProps.meals_display
+        })
+        if (this.props.order !== undefined) {
+
             let arr = [];
             for (let i = 0; i < this.props.order.length; i++) {
                 for (let j = 0; j < this.props.order[i].counter; j++) {
@@ -30,16 +37,10 @@ class MealsList extends Component {
             this.setState({
                 order_meals: arr
             })
-
-        } else console.log("XD")
-
+        }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        this.setState({
-            meals_display: nextProps.meals_display
-        })
-    }
+r
 
     finishEdit(e) {
         this.setState({
@@ -57,6 +58,11 @@ class MealsList extends Component {
             editedMeal: this.props.meals[id]
         });
         this.props.selectedMeal(id);
+    }
+
+    deleteMeal(id, e) {
+        console.log(id);
+        this.props.deleteMeal(this.props.meals[id]);
     }
 
     addToOrder(id, e) {
@@ -154,112 +160,120 @@ class MealsList extends Component {
     }
 
 
-sort(key, e) {
-    let tmp = this.state.meals_display.sort(this.compareNameAscending);
-    if(key === 1) tmp = this.state.meals_display.sort(this.compareNameDescending);
-    else if (key === 2) tmp = this.state.meals_display.sort(this.compareNumberAscending);
-    else if (key === 3) tmp = this.state.meals_display.sort(this.compareNumberDescending);
+    sort(key, e) {
+        let tmp = this.state.meals_display.sort(this.compareNameAscending);
+        if (key === 1) tmp = this.state.meals_display.sort(this.compareNameDescending);
+        else if (key === 2) tmp = this.state.meals_display.sort(this.compareNumberAscending);
+        else if (key === 3) tmp = this.state.meals_display.sort(this.compareNumberDescending);
 
-    this.setState({
-        meals_display: tmp
-    })
-}
+        this.setState({
+            meals_display: tmp
+        })
+    }
+
+
+
 
 render() {
     if (this.props.meals.length > 0) {
         
         return (
             <div>
-            <div className="transparentContainer">
-                    <div className="col-md">
-                        <h1 className="align-items-center display-2 font-weight-bold">MENU</h1>
-                    </div>
-                        <input className="col-9 mx-auto form-control" onInput={this.filterMeals.bind(this)} type="text" placeholder="Search..."></input>
-                    <div className="m-2">
-                        <SortButton sortfunction={this.sort.bind(this, 0)} text={"NAME ^"}></SortButton>
-                        <SortButton sortfunction={this.sort.bind(this, 1)} text={"NAME v"}></SortButton>
-                        <SortButton sortfunction={this.sort.bind(this, 2)} text={"PRICE ^"}></SortButton>
-                        <SortButton sortfunction={this.sort.bind(this, 3)} text={"PRICE v"}></SortButton>
-                    </div>
-                    
+                <div className="transparentContainer">
+                        <div className="col-md">
+                            <h1 className="align-items-center display-2 font-weight-bold">MENU</h1>
+                        </div>
+                            <input className="col-9 mx-auto form-control" onInput={this.filterMeals.bind(this)} type="text" placeholder="Search..."></input>
+                        <div className="m-2">
+                            <SortButton sortfunction={this.sort.bind(this, 0)} text={"NAME ^"}></SortButton>
+                            <SortButton sortfunction={this.sort.bind(this, 1)} text={"NAME v"}></SortButton>
+                            <SortButton sortfunction={this.sort.bind(this, 2)} text={"PRICE ^"}></SortButton>
+                            <SortButton sortfunction={this.sort.bind(this, 3)} text={"PRICE v"}></SortButton>
+                        </div>
+                        
                     <hr></hr>
 
-            </div>
-            <div className="container ">
-                
-                
-                <div className="row mw-100">
-                    <div className="leftcolumn mt-2">
-                        <Order meals={this.state.order_meals} delete={this.removePositionFromOrder.bind(this)} add={this.addPositionToOrder.bind(this)} />
-                    </div>
+                </div>
+                <div className="container ">
                     
-                    <div className="rightcolumn">
+                    
+                    <div className="row mw-100">
+                        
+                        <div className="leftcolumn mt-2">
+                                <Order meals={this.state.order_meals} delete={this.removePositionFromOrder.bind(this)} add={this.addPositionToOrder.bind(this)} />
+                                </div>
+                        
+                        <div className="rightcolumn">
 
-                        <ul className="list-group mt-2">
-                            {this.state.meals_display.map((meal, id) => {
-                                if (id !== this.state.mealIdToEdit)
-                                    return (
+                            <ul className="list-group mt-2">
+                                {this.state.meals_display.map((meal, id) => {
+                                    if (id !== this.state.mealIdToEdit)
+                                        return (
 
-                                        <div key={id} className="container mw-50">
-                                            <div className="col-sm ">
-                                                <Fade left>
-                                                <div className="card transparentContainer">
-                                                    <h5 className="card-header text-white bg-dark">{meal.name}</h5>
-                                                    <div className="row no-gutters">
-                                                        <div className="col-md align-items-center">
-                                                            <img className="" alt="" src={meal.image} />
-                                                        </div>
-
-                                                        <div className="col">
-                                                            <h6 className="text-white bg-secondary m-0  p-2">Składniki:</h6>
-                                                            <div>
-                                                                <div className="d-flex flex-wrap card-body p-0">
-                                                                    {meal.ingredients.map((ing, id) => <div key={id} className=" flex-fill  m-2">{ing}</div>)}
-                                                                </div>
+                                            <div key={id} className="container mw-50">
+                                                <div className="col-sm ">
+                                                    <Fade right>
+                                                    <div className="card transparentContainer">
+                                                        <h5 className="card-header text-white bg-dark">{meal.name}</h5>
+                                                        <div className="row no-gutters">
+                                                            <div className="col-md align-items-center">
+                                                                <img className="" alt="" src={meal.image} />
                                                             </div>
-                                                            
-                                                            <div className="align-items-end">
 
-                                                                <div className="card-footer margin ">
-                                                                    <h6 className="">Cena: {meal.price} PLN</h6>
+                                                            <div className="col">
+                                                                <h6 className="text-white bg-secondary m-0  p-2">Składniki:</h6>
+                                                                <div>
+                                                                    <div className="d-flex flex-wrap card-body p-0">
+                                                                        {meal.ingredients.map((ing, id) => <div key={id} className=" flex-fill  m-2">{ing}</div>)}
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div className="align-items-end">
+
+                                                                    <div className="card-footer margin ">
+                                                                        <h6 className="">Cena: {meal.price} PLN</h6>
+                                                                    </div>
+
+                                                                    <div className="padding p-2">
+                                                                        <button type="button" className="btn btn-dark m-2" onClick={this.editMeal.bind(this, id)}>EDIT</button>
+                                                                        <button type="button" className="btn btn-dark m-2" onClick={this.deleteMeal.bind(this, id)}>DELETE</button>
+                                                                        <button type="button" className="btn btn-dark m-2" onClick={this.addToOrder.bind(this, id)}>ADD TO ORDER</button>
+                                                                    </div>
                                                                 </div>
 
-                                                                <div className="padding p-2">
-                                                                    <button type="button" className="btn btn-dark m-2" onClick={this.editMeal.bind(this, id)}>EDIT</button>
-                                                                    <button type="button" className="btn btn-dark m-2" onClick={this.addToOrder.bind(this, id)}>ADD TO ORDER</button>
-                                                                </div>
                                                             </div>
-                                                        </div>
 
+                                                        </div>
                                                     </div>
+                                                    </Fade>
                                                 </div>
-                                                </Fade>
+                                                <br></br>
                                             </div>
-                                            <br></br>
-                                        </div>
 
+                                        )
+                                    else return (
+                                        <Zoom><li key={id} className="editItem list-group-item ">
+                                            <form>
+                                                <div className="container card transparentContainer w-75 p-2">
+                                                    {Object.values(meal).map((field, fieldKey) => {
+                                                        return <div><input className="list-group-item list-group-item-action transparentContainer mx-auto mb-1 mt-1" key={field} defaultValue={field} onChange={this.changeVal.bind(this, fieldKey)} /></div>
+                                                    }, this)}
+                                                    <button className="btn btn-dark mt-1" onClick={this.finishEdit.bind(this)} type="button">Update</button>
+                                                </div>
+                                            </form>
+                                        </li>
+                                        </Zoom>
                                     )
-                                else return (
-                                    <li key={id} className="list-group-item">
-                                        <form>
-                                            <div className="container w-75">
-                                                {Object.values(meal).map((field, fieldKey) => {
-                                                    return <input className="list-group-item list-group-item-action" key={field} defaultValue={field} onChange={this.changeVal.bind(this, fieldKey)} />
-                                                }, this)}
-                                                <button className="btn btn-dark" onClick={this.finishEdit.bind(this)} type="button">Update</button>
-                                            </div>
-                                        </form>
-                                    </li>
+                                }
                                 )
-                            }
-                            )
-                            }
-                        </ul>
+                                }
+                            </ul>
+                        </div>
+
+                        
                     </div>
                     
                 </div>
-                
-            </div>
             </div>
         );
 

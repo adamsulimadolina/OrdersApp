@@ -23,6 +23,8 @@ let products = [{
     }
 ];
 
+let orders = []
+
 let meals = [{
         name: "Pepperoni",
         price: 22.99,
@@ -102,6 +104,19 @@ app.put('/products', (req, res) => {
     if (!present) res.sendStatus(304);
 });
 
+app.post('/orders', (req, res) => {
+    console.log(req.body)
+    const order = req.body;
+    orders.push(order);
+    res.send(order);
+});
+
+
+app.get('/orders', function(req, res) {
+    res.send(orders);
+    console.log(orders)
+});
+
 app.get('/meals', function(req, res) {
     res.send(meals);
 });
@@ -124,6 +139,30 @@ app.put('/meals', (req, res) => {
     if (!present) res.sendStatus(304);
 });
 
+app.delete('/meals', (req, res) => {
+    let tmp = req.body;
+    meals.map((el, index, tab) => {
+        if(tmp.name === el.name && tmp.price === el.price && tmp.image === el.image) {
+            meals.splice(index,1);
+        }
+    })
+    return res.send('Received a DELETE HTTP method');
+});
+
+app.post('/meals', (req, res) => {
+    const meal = req.body;
+    let dupl = false;
+    meals.forEach(el => {
+        if (el.name === meal.name) {
+            dupl = true;
+        }
+    });
+    if (!dupl) {
+        console.log(meal);
+        meals.push(meal)
+        res.send(meal);
+    }
+});
 
 
 app.delete('/', (req, res) => {

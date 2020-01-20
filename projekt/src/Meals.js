@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import MealsList from './MealsList';
 import axios from 'axios';
+import AddMeal from './AddMeal';
 
 
 
@@ -14,17 +15,26 @@ class Meals extends Component {
             meals: [],
             selectedMeal: null,
             order_meals: [],
-            meals_display:[]
+            meals_display: []
         };
     }
 
     componentDidMount() {
+
         this.setState({
             loaded: false
         });
         axios("http://localhost:8080/meals").then(res => {
-            this.setState({ loaded: true, meals: res.data, meals_display: res.data});
+            this.setState({ loaded: true, meals: res.data, meals_display: res.data });
         }).catch(error => console.error('Error', error));
+
+
+        if (this.props.location.order !== null) {
+            this.setState({
+                order_meals: this.props.location.order
+            })
+        }
+
 
     }
 
@@ -60,23 +70,56 @@ class Meals extends Component {
     }
 
     onMealAdd = (mealData) => {
-        let elem = {
-            name: mealData.name,
-            id: mealData.id,
-            ingredients: mealData.ingredients,
-            image: mealData.image,
-            price: mealData.price
-        }
-        let tmp_prod = this.state.meals;
-        tmp_prod.push(elem)
         this.setState({
-            meals: tmp_prod,
             show: false
+        });
+
+        axios({
+            url: "http://localhost:8080/meals",
+            method: "POST",
+            headers: {
+                Accept: 'application/json', 'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(mealData),
+        }).then(res => {
+            if (res.status !== 304) {
+                let list = this.state.meals;
+                list.push(mealData);
+                this.setState({
+                    meals: list
+                });
+            } else {
+                throw new Error("Duplicate data");
+
+            }
+        }).catch(error => console.error('Error', error));
+    }
+
+    onMealDelete = (mealData) => {
+        axios({
+            url: "http://localhost:8080/meals",
+            method: "DELETE",
+            headers: {
+                Accept: 'application/json', 'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(mealData),
+        }).then(res => {
+            if (res.status !== 304) {
+                let tmp = this.state.meals
+                tmp.map((el, idx, arr) => {
+                    if (mealData === el) {
+                        arr.splice(idx, 1);
+                    }
+                })
+                this.setState({
+                    meals: tmp
+                })
+            }
         })
     }
 
     renderAdd() {
-        //if(this.state.show) return <AddMeal func={this.onMealAdd} />;
+        if(this.state.show) return <AddMeal func={this.onMealAdd} />;
     }
 
     handleClick(e) {
@@ -91,15 +134,14 @@ class Meals extends Component {
         }
     }
 
-    
+
 
     render() {
         return (
-
-            <div>
+            <div className="">
                 <MealsList selectedMeal={this.onMealSelected}
-                    updateMeal={this.onMealUpdate} meals={this.state.meals} order={this.state.order_meals} meals_display={this.state.meals_display} />
-                <button className="btn btn-dark" onClick={this.handleClick.bind(this)}>ADD</button>
+                    updateMeal={this.onMealUpdate} deleteMeal={this.onMealDelete} meals={this.state.meals} order={this.state.order_meals} meals_display={this.state.meals_display} />
+                <button className="btn btn-secondary" onClick={this.handleClick.bind(this)}>Add</button>
                 {this.renderAdd()}
             </div>
         )
