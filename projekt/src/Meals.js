@@ -52,11 +52,11 @@ class Meals extends Component {
             },
             data: JSON.stringify(mealData),
         }).then(res => {
-            console.log(mealData)
             if (res.status !== 304) {
                 this.setState((prevState) => {
                     let meals = prevState.meals;
                     meals[this.state.selectedMeal] = mealData;
+                    console.log(mealData)
                     return {
                         meals: meals,
                         selectedMeal: null
@@ -70,10 +70,13 @@ class Meals extends Component {
     }
 
     onMealAdd = (mealData) => {
+        console.log(mealData)
         this.setState({
             show: false
         });
-
+        mealData.id = this.state.meals.length+1;
+        mealData.price = parseFloat(mealData.price) 
+        console.log(mealData)
         axios({
             url: "http://localhost:8080/meals",
             method: "POST",
@@ -110,6 +113,7 @@ class Meals extends Component {
                     if (mealData === el) {
                         arr.splice(idx, 1);
                     }
+                    return( arr )
                 })
                 this.setState({
                     meals: tmp
@@ -138,11 +142,10 @@ class Meals extends Component {
 
     render() {
         return (
-
-            <div>
+            <div className="">
                 <MealsList selectedMeal={this.onMealSelected}
                     updateMeal={this.onMealUpdate} deleteMeal={this.onMealDelete} meals={this.state.meals} order={this.state.order_meals} meals_display={this.state.meals_display} />
-                <button className="btn btn-dark" onClick={this.handleClick.bind(this)}>ADD</button>
+                <button className="btn btn-secondary" onClick={this.handleClick.bind(this)}>Add</button>
                 {this.renderAdd()}
             </div>
         )

@@ -26,6 +26,7 @@ let products = [{
 let orders = []
 
 let meals = [{
+        id: 1,
         name: "Pepperoni",
         price: 22.99,
         ingredients: ["sos pomidorowy", "podwójne pepperoni", "podwójny ser mozzarella"],
@@ -33,6 +34,7 @@ let meals = [{
 
     },
     {
+        id: 2,
         name: "Hawajska",
         price: 21.99,
         ingredients: ["sos pomidorowy", "ser mozzarella", "szynka", "ananas"],
@@ -40,6 +42,7 @@ let meals = [{
 
     },
     {
+        id: 3,
         name: "Margherita",
         price: 20.99,
         ingredients: ["ser mozzarella", "sos pomidorowy"],
@@ -47,6 +50,7 @@ let meals = [{
 
     },
     {
+        id: 4,
         name: "American Hot",
         price: 24.99,
         ingredients: ["sos pomidorowy", "ser mozzarella", "pepperoni", "cebula", "papryczka jalapeño"],
@@ -54,6 +58,7 @@ let meals = [{
 
     },
     {
+        id: 5,
         name: "Italian",
         price: 23.99,
         ingredients: ["sos pomidorowy", "ser mozzarella", "szynka dojrzewająca", "rukola", "oregano", "ser corregio"],
@@ -61,6 +66,7 @@ let meals = [{
 
     },
     {
+        id: 6,
         name: "New Yorker",
         price: 27.99,
         ingredients: ["ser mozarella", "pepperoni", "szynka", "boczek", "pieczarki"],
@@ -124,18 +130,21 @@ app.get('/meals', function(req, res) {
 app.put('/meals', (req, res) => {
     const meal = req.body;
     let present = false;
+    console.log(meal)
     meals.map((el, index, tab) => {
-        if (el.name === meal.name) {
+        if (el.id === meal.id) {
 
-            tab[index].name = meal.name;
-            tab[index].price = meal.price;
-            tab[index].ingredients = meal.ingredients;
-            tab[index].image = meal.image;
-            res.send(tab[index]);
+            meals[index].name = meal.name;
+            meals[index].price = meal.price;
+            meals[index].ingredients = meal.ingredients;
+            meals[index].image = meal.image;
             present = true;
+            res.send(meals[index]);
+            
 
         }
     });
+    console.log(meals)
     if (!present) res.sendStatus(304);
 });
 

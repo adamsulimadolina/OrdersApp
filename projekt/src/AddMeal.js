@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import StringField from './StringField'
 import NumberField from './NumberField';
+import Zoom from 'react-reveal/Zoom';
+
 
 class AddMeal extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: null,
             name: null,
             price: null,
             ingredients: [],
@@ -40,6 +43,7 @@ class AddMeal extends Component {
             alert("Please insert correct ingredients (ingredient1,ingredient2,...).");
         } else if (this.state.image === null) {
             alert("Please insert correct image address.");
+
         } else {
             this.props.func(this.state);
         }
@@ -50,26 +54,28 @@ class AddMeal extends Component {
 
     render() {
         return (
-                <div className="form-group row align-items-center">
-                    <div className="col-xs-7">
-                        <form>
-                            <div className="form-group mb-2 w-100">
-                                <StringField label="Name: " defaultValue={this.state.name} className={"form-control"} placeholder={"Name..."} onChange={this.changeVal.bind(this, 1)} />
-                            </div>
-                            <div className="form-group mb-2 w-100">
-                                <NumberField label="Price: " defaultValue={this.state.price} className={"form-control"} placeholder={"Price..."} onChange={this.changeVal.bind(this, 2)} />
-                            </div>
-                            <div className="form-group mb-2 w-100">
-                                <StringField label="Ingredients: " defaultValue={this.state.ingredients} className={"form-control"} placeholder={"Ingredients (separated with coma)..."} onChange={this.changeVal.bind(this, 3)} />
-                            </div>
-                            <div className="form-group mb-2 w-100">
-                                <StringField label="Image...: " defaultValue={this.state.image} className={"form-control"} placeholder={"Image link..."} onChange={this.changeVal.bind(this, 4)} />
-                            </div>
-                            <button type="button" className="btn btn-secondary p-1" onClick={this.finish.bind(this)}>ADD MEAL</button>
+                <Zoom><div className=" card w-50 mx-auto mt-3 mb-3 transparentContainer">
+                    <h5 className="card-header">Nowa pizza</h5>            
+                        
+                        <div onSubmit={this.finish.bind(this)}>
 
-                        </form>
-                    </div>
-                </div>
+                            <div className="m-2">
+                                <StringField defaultValue={this.state.name} className="list-group-item list-group-item-action transparentContainer mx-auto m-2" placeholder={"Name"} onChange={this.changeVal.bind(this, 1)} />
+                            </div>
+                            <div className="m-2">
+                                <NumberField defaultValue={this.state.price} className="list-group-item list-group-item-action transparentContainer mx-auto m-2" placeholder={"Price"} onChange={this.changeVal.bind(this, 2)} />
+                            </div>
+                            <div className="m-2">
+                                <StringField defaultValue={this.state.ingredients} className="list-group-item list-group-item-action transparentContainer mx-auto m-2" placeholder={"Ingredients (separated with coma)"} onChange={this.changeVal.bind(this, 3)} />
+                            </div>
+                            <div className="m-2">
+                                <StringField defaultValue={this.state.image} className="list-group-item list-group-item-action transparentContainer mx-auto m-2" placeholder={"Image link"} onChange={this.changeVal.bind(this, 4)} />
+                            </div>
+
+                        </div>
+                        <button className="btn btn-dark mr-2 ml-2 mb-2 mt-0 " type="button" onClick={(e) => this.finish(e)}>Add</button>
+                    
+                </div></Zoom>
         );
     }
 }
