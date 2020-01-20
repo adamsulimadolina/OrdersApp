@@ -1,0 +1,40 @@
+img{
+    object-fit: cover;
+    width:100%;
+}
+.rightcolumn{
+    float:left;
+    width:75%;
+}
+.leftcolumn{
+    text-align: center;
+    float:right;
+    width:25%;
+}
+
+@media screen and (max-width: 993px){
+    .leftcolumn, .rightcolumn{
+        margin-left: 9%;
+        width:100%;
+        padding:0;
+    }
+}
+
+.sticky2{
+    top:80px;
+    z-index: 1000;
+}
+body{
+    background:url('./img/pizza.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.transparentContainer{
+    background-color: rgba(234, 234, 234,0.8)
+}
+.card-footer{
+    background-color: rgba(147, 147, 147, 0.8);
+}

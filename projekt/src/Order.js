@@ -14,6 +14,7 @@ const Order = (props) => {
                 console.log("1")
                 break;
             } 
+
         }
 
         if (!exist) {
@@ -25,6 +26,7 @@ const Order = (props) => {
             }
             arr.push(obj);
             exist = false;
+
         }
 
     }
@@ -39,21 +41,23 @@ const Order = (props) => {
     if (arr.length > 0) {
         return (
 
-            <div className="border sticky-top">
+
+            <div className="border sticky-top sticky2 transparentContainer">
                 <div className="card-header">
-                    <h3 className="text-justify">ZAMÓWIENIE</h3>
+                    <h3>ZAMÓWIENIE</h3>
                 </div>
                 <ul>
                     {arr.map((meal, id) => {
                         return <li className="p-1" key={id}>
-                            {meal.counter}x {meal.meal.name} {(meal.meal.price * meal.counter).toFixed(2)} -
-                                <button type="button" className="close" aria-label="Close" onClick={props.delete.bind(this, props.meals, arr[id])}>
-                                <span aria-hidden="true">-</span>
-                            </button>
-                            <button type="button" className="close" aria-label="Close" onClick={props.add.bind(this, props.meals, arr[id])}>
-                                <span aria-hidden="true">+</span>
-                            </button>
-                        </li>
+
+                                {meal.counter}x {meal.meal.name} {(meal.meal.price * meal.counter).toFixed(2)} 
+                                <button type="button" className="close mx-2" aria-label="Close" onClick={props.delete.bind(this, props.meals, arr[id])}>
+                                    <span aria-hidden="true">-</span>
+                                </button>
+                                <button type="button" className="close mx-2" aria-label="Close" onClick={props.add.bind(this, props.meals, arr[id])}>
+                                    <span aria-hidden="true">+</span>
+                                </button>
+                            </li>
                     })}
                 </ul>
                 <div className="p-1">
@@ -65,6 +69,7 @@ const Order = (props) => {
                         pathname: '/finishorder',
                         test: arr,
                         total: total_price
+
                     }}>
                         <button className="btn btn-secondary p-1">FINISH</button>
                     </Link>
@@ -78,12 +83,12 @@ const Order = (props) => {
 
     return (
 
-        <div className="border sticky-top">
+
+        <div className="border sticky-top sticky2 transparentContainer">
             <div className="card-header">
                 <h3>ZAMÓWIENIE</h3>
             </div>
             <div className="p-1">
-                <hr></hr>
                 TOTAL: {total_price}
             </div>
         </div>

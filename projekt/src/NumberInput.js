@@ -14,11 +14,11 @@ export default class StringInput extends Component {
           const {
               className,
               defaultValue,
-              key
+              placeholder
           } = this.props;
 
           return (
-              <input className={className} key={key} type="number" defaultValue={defaultValue} onChange={this.handleChange} />
+              <input className={className} type="number" placeholder={placeholder} defaultValue={defaultValue} onChange={this.handleChange} />
           )
       }
 

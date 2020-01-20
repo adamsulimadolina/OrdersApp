@@ -2,7 +2,9 @@ import React from 'react';
 
 const SortButton = (props) => {
     return (
-        <button onClick={props.sortfunction}>{props.text}</button>
+
+        <button className="btn btn-secondary m-2" onClick={props.sortfunction}>{props.text}</button>
+
     )
 }
 

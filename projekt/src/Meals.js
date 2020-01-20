@@ -27,11 +27,13 @@ class Meals extends Component {
             this.setState({ loaded: true, meals: res.data, meals_display: res.data});
         }).catch(error => console.error('Error', error));
 
+
         if(this.props.location.order !== null) {
             this.setState({
                 order_meals: this.props.location.order
             })
         }
+
 
     }
 

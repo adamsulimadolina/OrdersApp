@@ -111,14 +111,13 @@ app.post('/orders', (req, res) => {
         res.send(order);
 });
 
+
 app.get('/orders', function(req, res) {
     res.send(orders);
     console.log(orders)
 });
 
-app.get('/meals', function(req, res) {
-    res.send(meals);
-});
+
 
 app.put('/meals', (req, res) => {
     const meal = req.body;

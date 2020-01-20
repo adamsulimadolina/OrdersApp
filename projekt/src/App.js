@@ -30,20 +30,3 @@ function App() {
 
 export default App;
 
-// const prods = [
-//   {
-//       productName: 'koperek',
-//       number: 3,
-//       shop: 'biedronka'
-//   },
-//   {
-//       productName: 'pomidor',
-//       number: 3,
-//       shop: 'biedronka'
-//   },
-//   {
-//       productName: 'ogorek',
-//       number: 3,
-//       shop: "biedronka"
-//   }
-// ];
