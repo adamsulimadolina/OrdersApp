@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
+import HeadShake from 'react-reveal/HeadShake';
+
 const Order = (props) => {
 
     let arr = [];
@@ -42,9 +45,11 @@ const Order = (props) => {
                 <div className="card-header">
                     <h3>ZAMÓWIENIE</h3>
                 </div>
+                
                 <ul>
+                    
                     {arr.map((meal, id) => {
-                        return <li className="p-1" key={id}>
+                        return <HeadShake><li className="p-1" key={id}>
                                 {meal.counter}x {meal.meal.name} {(meal.meal.price * meal.counter).toFixed(2)} 
                                 <button type="button" className="close mx-2" aria-label="Close" onClick={props.delete.bind(this, props.meals, arr[id])}>
                                     <span aria-hidden="true">-</span>
@@ -52,8 +57,10 @@ const Order = (props) => {
                                 <button type="button" className="close mx-2" aria-label="Close" onClick={props.add.bind(this, props.meals, arr[id])}>
                                     <span aria-hidden="true">+</span>
                                 </button>
-                            </li>
+                            </li>                           
+                </HeadShake>
                     })}
+                    
                 </ul>
                 <div className="p-1">
                     <hr></hr>

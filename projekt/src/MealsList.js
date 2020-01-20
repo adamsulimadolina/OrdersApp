@@ -4,6 +4,7 @@ import Order from './Order';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SortButton from './SortButton';
 import './MealsList.css';
+import Fade from 'react-reveal/Fade';
 
 class MealsList extends Component {
     constructor(props) {
@@ -201,6 +202,7 @@ render() {
 
                                         <div key={id} className="container mw-50">
                                             <div className="col-sm ">
+                                                <Fade left>
                                                 <div className="card transparentContainer">
                                                     <h5 className="card-header text-white bg-dark">{meal.name}</h5>
                                                     <div className="row no-gutters">
@@ -231,6 +233,7 @@ render() {
 
                                                     </div>
                                                 </div>
+                                                </Fade>
                                             </div>
                                             <br></br>
                                         </div>
