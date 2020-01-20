@@ -23,6 +23,8 @@ let products = [{
     }
 ];
 
+let orders =[]
+
 let meals = [{
         name: "Pepperoni",
         price: 22.99,
@@ -100,6 +102,18 @@ app.put('/products', (req, res) => {
         }
     });
     if (!present) res.sendStatus(304);
+});
+
+app.post('/orders', (req, res) => {
+    console.log(req.body)
+    const order = req.body;
+        orders.push(order);
+        res.send(order);
+});
+
+app.get('/orders', function(req, res) {
+    res.send(orders);
+    console.log(orders)
 });
 
 app.get('/meals', function(req, res) {

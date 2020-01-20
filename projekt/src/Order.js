@@ -4,28 +4,29 @@ const Order = (props) => {
 
     let arr = [];
     let total_price = 0;
-
-
+    let exist = false;
     for (let i = 0; i < props.meals.length; i++) {
-        let tmp = [];
-        for (let p = 0; p < arr.length; p++) {
-            tmp.push(arr[p].meal)
+        exist = false;
+        for (let k = 0; k < arr.length; k++) {
+            if (arr[k].meal.name === props.meals[i].name) {
+                arr[k].counter += 1;
+                exist = true;
+                console.log("1")
+                break;
+            } 
         }
 
-        if (!tmp.includes(props.meals[i])) {
+        if (!exist) {
+            console.log(props.meals[i])
+            console.log("2")
             let obj = {
                 meal: props.meals[i],
                 counter: 1
             }
             arr.push(obj);
-        } else {
-
-            for (let k = 0; k < arr.length; k++) {
-                if (arr[k].meal === props.meals[i]) {
-                    arr[k].counter += 1;
-                }
-            }
+            exist = false;
         }
+
     }
 
     for (let i = 0; i < arr.length; i++) {
@@ -40,19 +41,19 @@ const Order = (props) => {
 
             <div className="border sticky-top">
                 <div className="card-header">
-                    <h3>ZAMÓWIENIE</h3>
+                    <h3 className="text-justify">ZAMÓWIENIE</h3>
                 </div>
                 <ul>
                     {arr.map((meal, id) => {
                         return <li className="p-1" key={id}>
-                                {meal.counter}x {meal.meal.name} {(meal.meal.price * meal.counter).toFixed(2)} -
+                            {meal.counter}x {meal.meal.name} {(meal.meal.price * meal.counter).toFixed(2)} -
                                 <button type="button" className="close" aria-label="Close" onClick={props.delete.bind(this, props.meals, arr[id])}>
-                                    <span aria-hidden="true">-</span>
-                                </button>
-                                <button type="button" className="close" aria-label="Close" onClick={props.add.bind(this, props.meals, arr[id])}>
-                                    <span aria-hidden="true">+</span>
-                                </button>
-                            </li>
+                                <span aria-hidden="true">-</span>
+                            </button>
+                            <button type="button" className="close" aria-label="Close" onClick={props.add.bind(this, props.meals, arr[id])}>
+                                <span aria-hidden="true">+</span>
+                            </button>
+                        </li>
                     })}
                 </ul>
                 <div className="p-1">
@@ -63,7 +64,7 @@ const Order = (props) => {
                     <Link to={{
                         pathname: '/finishorder',
                         test: arr,
-                        f: props.backf
+                        total: total_price
                     }}>
                         <button className="btn btn-secondary p-1">FINISH</button>
                     </Link>

@@ -19,12 +19,19 @@ class Meals extends Component {
     }
 
     componentDidMount() {
+        
         this.setState({
             loaded: false
         });
         axios("http://localhost:8080/meals").then(res => {
             this.setState({ loaded: true, meals: res.data, meals_display: res.data});
         }).catch(error => console.error('Error', error));
+
+        if(this.props.location.order !== null) {
+            this.setState({
+                order_meals: this.props.location.order
+            })
+        }
 
     }
 
