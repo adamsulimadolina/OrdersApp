@@ -24,45 +24,45 @@ let products = [{
 ];
 
 let meals = [{
-        name: "Pizza",
-        price: 22,
-        ingredients: ["jabłko", "banan", "pizza"],
-        image: "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F6352796.jpg"
+        name: "Pepperoni",
+        price: 22.99,
+        ingredients: ["sos pomidorowy", "podwójne pepperoni", "podwójny ser mozzarella"],
+        image: "https://www.dominospizza.pl/upload/images/3/thumb/220-151-t-pep_800x600.jpg"
 
     },
     {
-        name: "Ciaso",
-        price: 22,
-        ingredients: ["jabłko", "banan", "pizza"],
-        image: "https://a.allegroimg.com/s128/03f3b8/82ee416f4d049088dbef0f755d01"
+        name: "Hawajska",
+        price: 21.99,
+        ingredients: ["sos pomidorowy", "ser mozzarella", "szynka", "ananas"],
+        image: "https://www.dominospizza.pl/upload/images/3/thumb/220-151-t-hawa-800x600.jpg"
 
     },
     {
-        name: "Ciaso",
-        price: 22,
-        ingredients: ["jabłko", "banan", "pizza"],
-        image: "https://a.allegroimg.com/s128/03f3b8/82ee416f4d049088dbef0f755d01"
+        name: "Margherita",
+        price: 20.99,
+        ingredients: ["ser mozzarella", "sos pomidorowy"],
+        image: "https://www.dominospizza.pl/upload/images/3/thumb/220-151-t-mar_800x600.jpg"
 
     },
     {
-        name: "Ciaso",
-        price: 22,
-        ingredients: ["jabłko", "banan", "pizza"],
-        image: "https://a.allegroimg.com/s128/03f3b8/82ee416f4d049088dbef0f755d01"
+        name: "American Hot",
+        price: 24.99,
+        ingredients: ["sos pomidorowy", "ser mozzarella", "pepperoni", "cebula", "papryczka jalapeño"],
+        image: "https://www.dominospizza.pl/upload/images/3/thumb/220-151-t-ahot-800x600.jpg"
 
     },
     {
-        name: "Ciaso",
-        price: 22,
-        ingredients: ["jabłko", "banan", "pizza"],
-        image: "https://a.allegroimg.com/s128/03f3b8/82ee416f4d049088dbef0f755d01"
+        name: "Italian",
+        price: 23.99,
+        ingredients: ["sos pomidorowy", "ser mozzarella", "szynka dojrzewająca", "rukola", "oregano", "ser corregio"],
+        image: "https://www.dominospizza.pl/upload/images/3/thumb/220-151-t-parma-800x600-1.jpg"
 
     },
     {
-        name: "Ciaso",
-        price: 22,
-        ingredients: ["jabłko", "banan", "pizza"],
-        image: "https://a.allegroimg.com/s128/03f3b8/82ee416f4d049088dbef0f755d01"
+        name: "New Yorker",
+        price: 27.99,
+        ingredients: ["ser mozarella", "pepperoni", "szynka", "boczek", "pieczarki"],
+        image: "https://www.dominospizza.pl/upload/images/3/thumb/220-151-t-newy-800x600.jpg"
 
     }
 ]
@@ -102,15 +102,35 @@ app.put('/products', (req, res) => {
     if (!present) res.sendStatus(304);
 });
 
+app.get('/meals', function(req, res) {
+    res.send(meals);
+});
+
+app.put('/meals', (req, res) => {
+    const meal = req.body;
+    let present = false;
+    meals.map((el, index, tab) => {
+        if (el.name === meal.name) {
+
+            tab[index].name = meal.name;
+            tab[index].price = meal.price;
+            tab[index].ingredients = meal.ingredients;
+            tab[index].image = meal.image;
+            res.send(tab[index]);
+            present = true;
+
+        }
+    });
+    if (!present) res.sendStatus(304);
+});
+
 
 
 app.delete('/', (req, res) => {
     return res.send('Received a DELETE HTTP method');
 });
 
-app.get('/meals', function(req, res) {
-    res.send(meals);
-});
+
 
 app.listen(8080, () =>
     console.log('Example app listening on port 8080!'),

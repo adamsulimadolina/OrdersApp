@@ -1,23 +1,20 @@
 import React from 'react';
 import './App.css';
-import { Link } from 'react-router-dom';
+import logo from './img/logo.png'
 
 class Nav extends React.Component {
-    render(){
-    return (
-        
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-            <h3 className="navbar-brand">Logo</h3>
-            <ul className="navbar-nav mr-auto">
-                    <li className="nav-item"><a className="nav-link" href="/meals">Meals</a></li>
-                    <li className="nav-item"><a className="nav-link" href="/products">Product</a></li>
+    render() {
+        return (
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+                    <img className="App-logo" src={logo}></img>
+                    
+                        <div className="nav-item "><a className="text-white mx-3" href="/meals">Meals</a></div>
+                        <div className="nav-item "><a className="text-white mx-3" href="/products">Product</a></div>
+                   
+                </nav>
+        )
 
-
-
-            </ul>
-        </nav>
-    )
-}
+    }
 }
 
 export default Nav;

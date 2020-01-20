@@ -3,7 +3,8 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 40px;
+  width: 40px;
 }
 
 .App-header {
@@ -19,4 +20,11 @@
 
 .App-link {
   color: #09d3ac;
+}
+
+.sticky-content 
+{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 75px;
 }

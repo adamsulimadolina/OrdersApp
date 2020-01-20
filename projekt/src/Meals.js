@@ -12,7 +12,9 @@ class Meals extends Component {
         super(props);
         this.state = {
             meals: [],
-            selectedMeal: null
+            selectedMeal: null,
+            order_meals: [],
+            meals_display:[]
         };
     }
 
@@ -21,9 +23,9 @@ class Meals extends Component {
             loaded: false
         });
         axios("http://localhost:8080/meals").then(res => {
-            console.log(res.data);
-            this.setState({ loaded: true, meals: res.data });
+            this.setState({ loaded: true, meals: res.data, meals_display: res.data});
         }).catch(error => console.error('Error', error));
+
     }
 
     onMealSelected = (selectedMeal) => {
@@ -32,12 +34,29 @@ class Meals extends Component {
         });
     }
     onMealUpdate = (mealData) => {
-        let copy = this.state.meals;
-        copy[this.state.selectedMeal] = mealData;
-        this.setState({
-            mealsList: copy,
-            selectedMeal: null
-        });
+        axios({
+            url: "http://localhost:8080/meals",
+            method: "PUT",
+            headers: {
+                Accept: 'application/json', 'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(mealData),
+        }).then(res => {
+            console.log(mealData)
+            if (res.status !== 304) {
+                this.setState((prevState) => {
+                    let meals = prevState.meals;
+                    meals[this.state.selectedMeal] = mealData;
+                    return {
+                        meals: meals,
+                        selectedMeal: null
+                    }
+                })
+            } else {
+                throw new Error("Duplicate data");
+
+            }
+        }).catch(error => console.error('Error', error));
     }
 
     onMealAdd = (mealData) => {
@@ -71,12 +90,15 @@ class Meals extends Component {
             })
         }
     }
+
+    
+
     render() {
         return (
 
             <div>
                 <MealsList selectedMeal={this.onMealSelected}
-                    updateMeal={this.onMealUpdate} meals={this.state.meals} />
+                    updateMeal={this.onMealUpdate} meals={this.state.meals} order={this.state.order_meals} meals_display={this.state.meals_display} />
                 <button className="btn btn-dark" onClick={this.handleClick.bind(this)}>ADD</button>
                 {this.renderAdd()}
             </div>
