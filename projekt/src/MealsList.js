@@ -58,6 +58,11 @@ r
         this.props.selectedMeal(id);
     }
 
+    deleteMeal(id, e) {
+        console.log(id);
+        this.props.deleteMeal(this.props.meals[id]);
+    }
+
     addToOrder(id, e) {
         let newOrder = this.props.meals[id];
         let tmp = this.state.order_meals;
@@ -239,6 +244,7 @@ render() {
 
                                                                 <div className="padding p-2">
                                                                     <button type="button" className="btn btn-dark m-2" onClick={this.editMeal.bind(this, id)}>EDIT</button>
+                                                                    <button type="button" className="btn btn-dark m-2" onClick={this.deleteMeal.bind(this, id)}>DELETE</button>
                                                                     <button type="button" className="btn btn-dark m-2" onClick={this.addToOrder.bind(this, id)}>ADD TO ORDER</button>
                                                                 </div>
                                                             </div>

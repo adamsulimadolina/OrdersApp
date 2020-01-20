@@ -30,7 +30,6 @@ class OrderConfirm extends Component {
                 Accept: 'application/json', 'Content-Type': 'application/json'
             },
             data: JSON.stringify(newOrder),
-
         })
     }
 
@@ -48,49 +47,49 @@ class OrderConfirm extends Component {
             return (
                 <div className="pt-5 pb-5">
                     <div className="d-flex justify-content-center">
-                    <div className="card transparentContainer w-50">
-                        <div className="pt-3 pb-3">
-                            {this.props.location.test.map((position, idx) =>
-                                <li key={idx}>{position.counter}x {position.meal.name} {(position.meal.price * position.counter).toFixed(2)}</li>
+                        <div className="card transparentContainer w-50">
+                            <div className="pt-3 pb-3 pl-1 pr-1">
+                                {this.props.location.test.map((position, idx) =>
+                                    <li key={idx}>{position.counter}x {position.meal.name} {(position.meal.price * position.counter).toFixed(2)}</li>
 
-                            )}
-                            <div>TOTAL PRICE: {this.props.location.total}</div>
+                                )}
+                                <div>TOTAL PRICE: {this.props.location.total}</div>
 
-                            <div className="p-2">
-                                <Link to={{
-                                    pathname: '/meals',
-                                    order: this.props.location.test
-                                }}>
-                                    <button className="btn btn-secondary p-1">BACK</button>
-                                </Link>
+                                <div className="p-2">
+                                    <Link to={{
+                                        pathname: '/meals',
+                                        order: this.props.location.test
+                                    }}>
+                                        <button className="btn btn-secondary p-1">BACK</button>
+                                    </Link>
+                                </div>
+                                <form onSubmit={this.onOrderAdd.bind(this)}>
+
+                                    <div className="form-group mb-2 w-100">
+                                        <StringField label="Name: " defaultValue={this.state.name} className={"form-control"} placeholder={"Name..."} onChange={this.handleChange.bind(this, 1)} />
+                                    </div>
+                                    <div className="form-group mb-2 w-100">
+                                        <StringField label="Surname: " defaultValue={this.state.surname} className={"form-control"} placeholder={"Surname..."} onChange={this.handleChange.bind(this, 2)} />
+                                    </div>
+                                    <div className="form-group mb-2 w-100">
+                                        <StringField label="Street: " defaultValue={this.state.street} className={"form-control"} placeholder={"Street..."} onChange={this.handleChange.bind(this, 3)} />
+                                    </div>
+                                    <div className="form-group mb-2 w-100">
+                                        <StringField label="Building number: " defaultValue={this.state.building_number} className={"form-control"} placeholder={"Building number..."} onChange={this.handleChange.bind(this, 4)} />
+                                    </div>
+                                    <div className="form-group mb-2 w-100">
+                                        <NumberField label="House number: " defaultValue={this.state.house_number} className={"form-control"} placeholder={"House number..."} onChange={this.handleChange.bind(this, 5)} />
+                                    </div>
+                                    <div className="form-group mb-2 w-100">
+                                        <NumberField label="Phone number: " defaultValue={this.state.phone_number} className={"form-control"} placeholder={"Phone number..."} onChange={this.handleChange.bind(this, 6)} />
+                                    </div>
+
+                                    <button type="submit" className="btn btn-secondary p-1">SUBMIT ORDER</button>
+
+                                </form>
                             </div>
-                            <form onSubmit={this.onOrderAdd.bind(this)}>
-
-                                <div className="form-group mb-2 w-100">
-                                    <StringField label="Name: " defaultValue={this.state.name} placeholder={"Name..."} onChange={this.handleChange.bind(this, 1)} />
-                                </div>
-                                <div className="form-group mb-2 w-100">
-                                    <StringField label="Surname: " defaultValue={this.state.surname} placeholder={"Surname..."} onChange={this.handleChange.bind(this, 2)} />
-                                </div>
-                                <div className="form-group mb-2 w-100">
-                                    <StringField label="Street: " defaultValue={this.state.street} placeholder={"Street..."} onChange={this.handleChange.bind(this, 3)} />
-                                </div>
-                                <div className="form-group mb-2 w-100">
-                                    <StringField label="Building number: " defaultValue={this.state.building_number} placeholder={"Building number..."} onChange={this.handleChange.bind(this, 4)} />
-                                </div>
-                                <div className="form-group mb-2 w-100">
-                                    <NumberField label="House number: " defaultValue={this.state.house_number} placeholder={"House number..."} onChange={this.handleChange.bind(this, 5)} />
-                                </div>
-                                <div className="form-group mb-2 w-100">
-                                    <NumberField label="Phone number: " defaultValue={this.state.phone_number} placeholder={"Phone number..."} onChange={this.handleChange.bind(this, 6)} />
-                                </div>
-
-                                <button type="submit" className="btn btn-secondary p-1">SUBMIT ORDER</button>
-
-                            </form>
                         </div>
-                    </div>
-                </div >
+                    </div >
                 </div>
 
             )
