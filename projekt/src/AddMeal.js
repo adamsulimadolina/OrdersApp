@@ -35,13 +35,13 @@ class AddMeal extends Component {
     finish(e) {
         e.preventDefault();
         console.log(this.state)
-        if (this.state.name === null) {
+        if (this.state.name === null || this.state.name === "") {
             alert("Please insert correct name.");
-        } else if (this.state.price === null){
+        } else if (this.state.price === null || this.state.price === ""){
             alert("Please insert correct price.");
         } else if (this.state.ingredients.length === 0) {
             alert("Please insert correct ingredients (ingredient1,ingredient2,...).");
-        } else if (this.state.image === null) {
+        } else if (this.state.image === null ||  this.state.image === "") {
             alert("Please insert correct image address.");
 
         } else {

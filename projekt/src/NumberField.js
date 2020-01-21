@@ -5,8 +5,6 @@ import NumberInput from './NumberInput'
     return (
         <div className="string-field field">
 
-            <label>{label}</label><br></br>
-
             <NumberInput {...inputProps} />
         </div>
     )

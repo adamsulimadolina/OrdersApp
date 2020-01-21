@@ -12,15 +12,12 @@ const Order = (props) => {
             if (arr[k].meal.name === props.meals[i].name) {
                 arr[k].counter += 1;
                 exist = true;
-                console.log("1")
                 break;
             } 
 
         }
 
         if (!exist) {
-            console.log(props.meals[i])
-            console.log("2")
             let obj = {
                 meal: props.meals[i],
                 counter: 1
@@ -50,7 +47,7 @@ const Order = (props) => {
                 <ul className="zamLi">
                     {arr.map((meal, id) => {
 
-                        return <HeadShake><li className="p-1" key={id}>
+                        return <HeadShake key={id}><li className="p-1" >
 
                                 {meal.counter}x {meal.meal.name} {(meal.meal.price * meal.counter).toFixed(2)} 
                                 <button type="button" className="close mx-2 " aria-label="Close" onClick={props.delete.bind(this, props.meals, arr[id])}>
@@ -71,8 +68,8 @@ const Order = (props) => {
                     <Link to={{
                         pathname: '/finishorder',
                         test: arr,
-                        total: total_price
-
+                        total: total_price,
+                        func: props.func
                     }}>
                         <button className="btn btn-secondary p-1">FINISH</button>
                     </Link>
@@ -99,5 +96,6 @@ const Order = (props) => {
 
     )
 }
+
 
 export default Order;

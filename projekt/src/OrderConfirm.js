@@ -12,6 +12,7 @@ class OrderConfirm extends Component {
             meals: null,
             name: null,
             surname: null,
+            city: null,
             street: null,
             building_number: null,
             house_number: null,
@@ -21,25 +22,56 @@ class OrderConfirm extends Component {
 
 
     onOrderAdd = (e) => {
-        let newOrder = this.state;
-        newOrder.meals = this.props.location.test;
-        axios({
-            url: "http://localhost:8080/orders",
-            method: "POST",
-            headers: {
-                Accept: 'application/json', 'Content-Type': 'application/json'
-            },
-            data: JSON.stringify(newOrder),
-        })
+        console.log(this.props)
+        e.preventDefault();
+        if (this.state.name === null || this.state.name === "") alert("Please insert correct name.");
+        else if (this.state.surname === null || this.state.surname === "") alert("Please insert correct surname.");
+        else if (this.state.city === null || this.state.city === "") alert("Please insert correct city.");
+        else if (this.state.street === null || this.state.street === "") alert("Please insert correct street.");
+        else if (this.state.building_number === null || this.state.building_number === "") alert("Please insert correct building number.");
+        else if (this.state.house_number === null || this.state.house_number === 0) alert("Please insert correct house number.");
+        else if (this.state.phone_number === null || this.state.phone_number === 0) alert("Please insert correct phone number.");
+        else {
+            let newOrder = this.state;
+            newOrder.meals = this.props.location.test;
+            axios({
+                url: "http://localhost:8080/orders",
+                method: "POST",
+                headers: {
+                    Accept: 'application/json', 'Content-Type': 'application/json'
+                },
+                data: JSON.stringify(newOrder),
+            }).then(res => {
+                if (res.status !== 304) {
+                    this.setState({
+                        meals: null,
+                        name: null,
+                        surname: null,
+                        city: null,
+                        street: null,
+                        building_number: null,
+                        house_number: null,
+                        phone_number: null
+                    })
+                    this.props.history.push('/');
+                }
+            })
+            
+            
+
+        }
     }
+
+
 
     handleChange(field, val) {
         if (field === 1) this.setState({ name: val })
         if (field === 2) this.setState({ surname: val })
-        if (field === 3) this.setState({ street: val })
-        if (field === 4) this.setState({ building_number: val })
-        if (field === 5) this.setState({ house_numer: val })
-        if (field === 6) this.setState({ phone_number: val })
+        if (field === 3) this.setState({ city: val })
+        if (field === 4) this.setState({ street: val })
+        if (field === 5) this.setState({ building_number: val })
+        if (field === 6) this.setState({ house_number: parseInt(val) })
+        if (field === 7) this.setState({ phone_number: parseInt(val) })
     }
 
     render() {
@@ -49,63 +81,66 @@ class OrderConfirm extends Component {
 
                     <div className="list-group mx-auto justify-content-center">
                         <Zoom>
-                        <div className="container card p-0 transparentContainer w-50">
-                            <div className="card-header">
-                                <h3>ZAMÓWIENIE</h3>
-                            </div>
-                            <div className="pt-3 pb-3 pl-0 pr-0">
-                            
-                                {this.props.location.test.map((position, idx) =>
-                                    <li className="m-2"key={idx}>{position.counter}x {position.meal.name} {(position.meal.price * position.counter).toFixed(2)}</li>
-
-                                )}
-                                <hr></hr>
-                                <div>TOTAL PRICE: {this.props.location.total}</div>
-
-                                <div className="p-2 margin margin-top">
-
-                                    <Link to={{
-                                        pathname: '/meals',
-                                        order: this.props.location.test
-                                    }}>
-
-                                        <button className="btn btn-secondary p-1 mt-2">BACK</button>
-                                    </Link>
+                            <div className="container card p-0 transparentContainer w-50">
+                                <div className="card-header">
+                                    <h3>ZAMÓWIENIE</h3>
                                 </div>
-                                
+                                <div className="pt-3 pb-3 pl-0 pr-0">
+
+                                    {this.props.location.test.map((position, idx) =>
+                                        <li className="m-2" key={idx}>{position.counter}x {position.meal.name} {(position.meal.price * position.counter).toFixed(2)}</li>
+
+                                    )}
+                                    <hr></hr>
+                                    <div>TOTAL PRICE: {this.props.location.total}</div>
+
+                                    <div className="p-2 margin margin-top">
+
+                                        <Link to={{
+                                            pathname: '/',
+                                            order: this.props.location.test
+                                        }}>
+
+                                            <button className="btn btn-secondary p-1 mt-2">BACK</button>
+                                        </Link>
+                                    </div>
+
+                                </div>
+
                             </div>
-                            
-                        </div>
                         </Zoom>
                         <br></br>
                         <Zoom>
-                        <div className="container card transparentContainer p-3 pb-4 w-50">
-                                
+                            <div className="container card transparentContainer p-3 pb-4 w-50">
+
                                 <form onSubmit={this.onOrderAdd.bind(this)}>
 
                                     <div className="form-group col-9 mx-auto">
-                                        <StringField label="Name: " defaultValue={this.state.name} className={"form-control"} placeholder={"Name..."} onChange={this.handleChange.bind(this, 1)} />
+                                        <StringField label="Name: " defaultValue={this.state.name} className={"form-control"} placeholder={"Name"} onChange={this.handleChange.bind(this, 1)} />
                                     </div>
                                     <div className="form-group col-9 mx-auto">
-                                        <StringField label="Surname: " defaultValue={this.state.surname} className={"form-control"} placeholder={"Surname..."} onChange={this.handleChange.bind(this, 2)} />
+                                        <StringField label="Surname: " defaultValue={this.state.surname} className={"form-control"} placeholder={"Surname"} onChange={this.handleChange.bind(this, 2)} />
                                     </div>
                                     <div className="form-group col-9 mx-auto">
-                                        <StringField label="Street: " defaultValue={this.state.street} className={"form-control"} placeholder={"Street..."} onChange={this.handleChange.bind(this, 3)} />
+                                        <StringField label="City: " defaultValue={this.state.city} className={"form-control"} placeholder={"City"} onChange={this.handleChange.bind(this, 3)} />
                                     </div>
                                     <div className="form-group col-9 mx-auto">
-                                        <StringField label="Building number: " defaultValue={this.state.building_number} className={"form-control"} placeholder={"Building number..."} onChange={this.handleChange.bind(this, 4)} />
+                                        <StringField label="Street: " defaultValue={this.state.street} className={"form-control"} placeholder={"Street"} onChange={this.handleChange.bind(this, 4)} />
                                     </div>
                                     <div className="form-group col-9 mx-auto">
-                                        <NumberField label="House number: " defaultValue={this.state.house_number} className={"form-control"} placeholder={"House number..."} onChange={this.handleChange.bind(this, 5)} />
+                                        <StringField label="Building number: " defaultValue={this.state.building_number} className={"form-control"} placeholder={"Building number"} onChange={this.handleChange.bind(this, 5)} />
                                     </div>
                                     <div className="form-group col-9 mx-auto">
-                                        <NumberField label="Phone number: " defaultValue={this.state.phone_number} className={"form-control"} placeholder={"Phone number..."} onChange={this.handleChange.bind(this, 6)} />
+                                        <NumberField label="House number: " defaultValue={this.state.house_number} className={"form-control"} placeholder={"House number"} onChange={this.handleChange.bind(this, 6)} />
+                                    </div>
+                                    <div className="form-group col-9 mx-auto">
+                                        <NumberField label="Phone number: " defaultValue={this.state.phone_number} className={"form-control"} placeholder={"Phone number"} onChange={this.handleChange.bind(this, 7)} />
                                     </div>
 
-                                    <button type="submit" className="btn btn-secondary p-1 mt-2">SUBMIT ORDER</button>
+                                    <button type="submit" href="/" className="btn btn-secondary p-1 mt-2">SUBMIT ORDER</button>
 
                                 </form>
-                        </div>
+                            </div>
                         </Zoom>
                     </div >
                 </div>
@@ -115,7 +150,7 @@ class OrderConfirm extends Component {
         return (
             <div className="p-2">
                 <Link to={{
-                    pathname: '/meals',
+                    pathname: '/',
                     order: this.props.location.test
                 }}>
                     <button className="btn btn-secondary p-1">BACK TO MENU</button>

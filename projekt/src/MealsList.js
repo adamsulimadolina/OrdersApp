@@ -6,7 +6,8 @@ import SortButton from './SortButton';
 import './MealsList.css';
 import Fade from 'react-reveal/Fade';
 import Zoom from 'react-reveal/Zoom';
-
+import PropTypes from 'prop-types'
+import axios from 'axios'
 
 
 class MealsList extends Component {
@@ -39,9 +40,25 @@ class MealsList extends Component {
                 order_meals: arr
             })
         }
+        console.log(this.state.order_meals)
     }
 
-r
+    addOrder = (meal, meals) => {
+        let newOrder = meal;
+        newOrder.meals = meals;
+        axios({
+            url: "http://localhost:8080/orders",
+            method: "POST",
+            headers: {
+                Accept: 'application/json', 'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(newOrder),
+        }).then(res => {
+            if (res.status !== 304) {
+                return
+            }
+        })
+    }
 
     finishEdit(e) {
         this.setState({
@@ -62,7 +79,6 @@ r
     }
 
     deleteMeal(id, e) {
-        console.log(id);
         this.props.deleteMeal(this.props.meals[id]);
     }
 
@@ -76,8 +92,7 @@ r
     }
 
     removePositionFromOrder(arr, meal, e) {
-        console.log(arr);
-        console.log(meal);
+
         for (let i = 0; i < arr.length; i++) {
             if (arr[i] === meal.meal) {
                 arr.splice(i, 1);
@@ -90,8 +105,6 @@ r
     }
 
     addPositionToOrder(arr, meal, e) {
-        console.log(arr);
-        console.log(meal);
         for (let i = 0; i < arr.length; i++) {
             if (arr[i] === meal.meal) {
                 let tmp = arr[i];
@@ -113,7 +126,7 @@ r
         else if (field === 3) {
             pr.ingredients = newVal.split(',')
         }
-        else if(field === 4) pr.image = newVal;
+        else if (field === 4) pr.image = newVal;
         this.setState({
             editedMeal: pr
         });
@@ -174,119 +187,145 @@ r
 
 
 
-render() {
-    if (this.props.meals.length > 0) {
-        
-        return (
-            <div>
-                <div className="transparentContainer">
+    render() {
+        if (this.props.meals.length > 0) {
+
+            return (
+                <div>
+                    <div className="transparentContainer">
                         <div className="col-md">
                             <h1 className="align-items-center display-2 font-weight-bold">MENU</h1>
                         </div>
-                            <input className="col-9 mx-auto form-control" onInput={this.filterMeals.bind(this)} type="text" placeholder="Search..."></input>
+                        <input className="col-9 mx-auto form-control" onInput={this.filterMeals.bind(this)} type="text" placeholder="Search..."></input>
                         <div className="m-2">
                             <SortButton sortfunction={this.sort.bind(this, 0)} text={"NAME ^"}></SortButton>
                             <SortButton sortfunction={this.sort.bind(this, 1)} text={"NAME v"}></SortButton>
                             <SortButton sortfunction={this.sort.bind(this, 2)} text={"PRICE ^"}></SortButton>
                             <SortButton sortfunction={this.sort.bind(this, 3)} text={"PRICE v"}></SortButton>
                         </div>
-                        
-                    <hr></hr>
+
+                        <hr></hr>
 
 
-                </div>
-                <div className="container ">
-                    
-                    
-                    <div className="row mw-100">
-                        
-                        <div className="leftcolumn mt-2">
-                                <Order meals={this.state.order_meals} delete={this.removePositionFromOrder.bind(this)} add={this.addPositionToOrder.bind(this)} />
-                                </div>
-                        
-                        <div className="rightcolumn">
+                    </div>
+                    <div className="container ">
 
-                            <ul className="list-group mt-2">
-                                {this.state.meals_display.map((meal, id) => {
-                                    if (id !== this.state.mealIdToEdit)
-                                        return (
 
-                                            <div key={id} className="container mw-50">
-                                                <div className="col-sm ">
-                                                    <Fade right>
-                                                    <div className="card transparentContainer">
-                                                        <h5 className="card-header text-white bg-dark">{meal.name}</h5>
-                                                        <div className="row no-gutters">
-                                                            <div className="col-md align-items-center">
-                                                                <img className="" alt="" src={meal.image} />
-                                                            </div>
+                        <div className="row mw-100">
 
-                                                            <div className="col">
-                                                                <h6 className="text-white bg-secondary m-0  p-2">Składniki:</h6>
-                                                                <div>
-                                                                    <div className="d-flex flex-wrap card-body p-0">
-                                                                        {meal.ingredients.map((ing, id) => <div key={id} className=" flex-fill  m-2">{ing}</div>)}
+                            <div className="leftcolumn mt-2">
+                                <Order meals={this.state.order_meals} delete={this.removePositionFromOrder.bind(this)} add={this.addPositionToOrder.bind(this)} func={this.addOrder.bind(this)}/>
+                            </div>
+
+                            <div className="rightcolumn">
+
+                                <ul className="list-group mt-2">
+                                    {this.state.meals_display.map((meal, id) => {
+                                        if (id !== this.state.mealIdToEdit)
+                                            return (
+
+                                                <div key={id} className="container mw-50">
+                                                    <div className="col-sm ">
+                                                        <Fade right>
+                                                            <div className="card border-0 transparentContainer">
+                                                                <h5 className="card-header text-white bg-dark">{meal.name}</h5>
+                                                                <div className="row no-gutters">
+                                                                    <div className="col-md align-items-center">
+                                                                        <img className="" alt="" src={meal.image} />
+                                                                    </div>
+
+                                                                    <div className="col">
+                                                                        <h6 className="text-white bg-secondary m-0  p-2">Składniki:</h6>
+                                                                        <div>
+                                                                            <div className="d-flex flex-wrap card-body p-0">
+                                                                                {meal.ingredients.map((ing, id) => <div key={id} className=" flex-fill  m-2">{ing}</div>)}
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div className="align-items-end">
+
+                                                                            <div className="card-footer margin ">
+                                                                                <h6 className="">Cena: {meal.price} PLN</h6>
+                                                                            </div>
+
+                                                                            <div className="padding p-2">
+                                                                                <button type="button" className="btn btn-dark m-2" onClick={this.editMeal.bind(this, id)}>EDIT</button>
+                                                                                <button type="button" className="btn btn-dark m-2" onClick={this.deleteMeal.bind(this, id)}>DELETE</button>
+                                                                                <button type="button" className="btn btn-dark m-2" onClick={this.addToOrder.bind(this, id)}>ADD TO ORDER</button>
+                                                                            </div>
+                                                                        </div>
+
                                                                     </div>
                                                                 </div>
-                                                                
-                                                                <div className="align-items-end">
-
-                                                                    <div className="card-footer margin ">
-                                                                        <h6 className="">Cena: {meal.price} PLN</h6>
-                                                                    </div>
-
-                                                                    <div className="padding p-2">
-                                                                        <button type="button" className="btn btn-dark m-2" onClick={this.editMeal.bind(this, id)}>EDIT</button>
-                                                                        <button type="button" className="btn btn-dark m-2" onClick={this.deleteMeal.bind(this, id)}>DELETE</button>
-                                                                        <button type="button" className="btn btn-dark m-2" onClick={this.addToOrder.bind(this, id)}>ADD TO ORDER</button>
-                                                                    </div>
-                                                                </div>
-
                                                             </div>
-                                                        </div>
+                                                        </Fade>
                                                     </div>
-                                                    </Fade>
+                                                    <br></br>
                                                 </div>
-                                                <br></br>
-                                            </div>
 
+                                            )
+                                        else return (
+                                            <Zoom key={id}><li key={id} className="editItem list-group-item ">
+                                                <form>
+                                                    <div className="container card transparentContainer w-75 p-2">
+                                                        {Object.values(meal).map((field, fieldKey) => {
+                                                            if (fieldKey === 0) { return null }
+                                                            return <div key={fieldKey}><input className="list-group-item list-group-item-action transparentContainer mx-auto mb-1 mt-1" defaultValue={field} onChange={this.changeVal.bind(this, fieldKey)} /></div>
+                                                        }, this)}
+                                                        <button className="btn btn-dark mt-1" onClick={this.finishEdit.bind(this)} type="button">Update</button>
+                                                    </div>
+                                                </form>
+                                            </li>
+                                            </Zoom>
                                         )
-                                    else return (
-                                        <Zoom key={id}><li key={id} className="editItem list-group-item ">
-                                            <form>
-                                                <div className="container card transparentContainer w-75 p-2">
-                                                    {Object.values(meal).map((field, fieldKey) => {
-                                                        if(fieldKey === 0) { return }
-                                                        return <div key={fieldKey}><input className="list-group-item list-group-item-action transparentContainer mx-auto mb-1 mt-1"  defaultValue={field} onChange={this.changeVal.bind(this, fieldKey)} /></div>
-                                                    }, this)}
-                                                    <button className="btn btn-dark mt-1" onClick={this.finishEdit.bind(this)} type="button">Update</button>
-                                                </div>
-                                            </form>
-                                        </li>
-                                        </Zoom>
+                                    }
                                     )
-                                }
-                                )
-                                }
-                            </ul>
+                                    }
+                                </ul>
+                            </div>
+
+
                         </div>
 
-                        
-                    </div>
 
-                    
+                    </div>
                 </div>
-            </div>
+            );
+
+        }
+        return (
+            <p>No results!</p>
         );
 
     }
-    return (
-        <p>No results!</p>
-    );
-
-}
 }
 
+MealsList.propTypes = {
+    meals: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        price: PropTypes.number,
+        ingredients: PropTypes.arrayOf(PropTypes.string),
+        image: url,
+        selectedMeal: PropTypes.func,
+        updateMeal: PropTypes.func,
+        deleteMeal: PropTypes.func
+    }))
 
+}
+
+function url(props, propName, componentName) {
+    componentName = componentName || 'UNKNOWN';
+    if (props[propName]) {
+        let value = props[propName];
+        if (typeof value === 'string') {
+            if (value.includes('http')) {
+                return null;
+            }
+            else return new Error(propName+' in '+componentName+' is not URL.');
+        }
+    }
+    return null;
+}
 
 export default MealsList;

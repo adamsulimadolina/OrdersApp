@@ -6,22 +6,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-let products = [{
-        productName: "Jabłko",
-        number: 6,
-        shop: "Biedronka"
-    },
-    {
-        productName: "Banan",
-        number: 4,
-        shop: "Tesco"
-    },
-    {
-        productName: "Gruszka",
-        number: 3,
-        shop: "Lidl"
-    }
-];
 
 let orders = []
 
@@ -75,43 +59,7 @@ let meals = [{
     }
 ]
 
-app.get('/products', function(req, res) {
-    res.send(products);
-});
-
-app.post('/products', (req, res) => {
-    const prod = req.body;
-    let dupl = false;
-    products.forEach(el => {
-        if (el.productName === prod.productName) {
-            dupl = true;
-        }
-    });
-    if (!dupl) {
-        console.log(prod);
-        products.push(prod);
-        res.send(prod);
-    }
-});
-
-app.put('/products', (req, res) => {
-    const prod = req.body;
-    let present = false;
-    products.map((el, index, tab) => {
-        if (el.productName === prod.productName) {
-
-            tab[index].number = prod.number;
-            tab[index].shop = prod.shop;
-            res.send(tab[index]);
-            present = true;
-
-        }
-    });
-    if (!present) res.sendStatus(304);
-});
-
 app.post('/orders', (req, res) => {
-    console.log(req.body)
     const order = req.body;
     orders.push(order);
     res.send(order);
@@ -120,8 +68,23 @@ app.post('/orders', (req, res) => {
 
 app.get('/orders', function(req, res) {
     res.send(orders);
-    console.log(orders)
 });
+
+app.delete('/orders', function(req, res) {
+    let elem = req.body;
+    console.log(elem)
+            console.log(orders)
+    for(let i = 0; i< orders.length; i++) {
+        if(orders[i].name === elem.name && orders[i].surname === elem.surname && orders[i].city === elem.city
+            && orders[i].street === elem.street && orders[i].house_number === elem.house_number && orders[i].phone_number === elem.phone_number 
+            && orders[i].building_number === elem.building_number) {
+            orders.splice(i,1);
+            
+            break;
+        }
+    }
+    res.send(elem);
+})
 
 app.get('/meals', function(req, res) {
     res.send(meals);
@@ -144,7 +107,7 @@ app.put('/meals', (req, res) => {
 
         }
     });
-    console.log(meals)
+
     if (!present) res.sendStatus(304);
 });
 
@@ -167,7 +130,6 @@ app.post('/meals', (req, res) => {
         }
     });
     if (!dupl) {
-        console.log(meal);
         meals.push(meal)
         res.send(meal);
     }
